@@ -10,6 +10,4 @@ Coisas para ler, testar ou aprofundar depois.
 
 - [ ] ...
 
-## Dúvidas em aberto
-
-- [ ] ...
+Dúvidas e pontos a aprofundar agora ficam no [`MAPA-DA-IGNORANCIA.md`](MAPA-DA-IGNORANCIA.md).

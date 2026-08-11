@@ -17,7 +17,10 @@ Uma ou duas frases sobre o que é isso e por que importa.
 
 Explicação mais aprofundada, com exemplos se fizer sentido.
 
-## Dúvidas / pontos a aprofundar
+## Mapa da ignorância
+
+Pontos que ainda não entendo bem ou preciso aprofundar sobre este assunto.
+Se a lacuna for ampla o suficiente para virar um tópico de estudo próprio, ela também vai para o [`MAPA-DA-IGNORANCIA.md`](MAPA-DA-IGNORANCIA.md) central.
 
 - ...
 

@@ -27,7 +27,7 @@ A perda de flexibilidade para fine-tuning acontece porque pesos quantizados têm
 
 **Minha análise:** o balanço "pequena perda de precisão vs. grande ganho de desempenho" mencionado no livro é a razão pela qual quantização virou padrão para rodar LLMs em hardware limitado (GPUs de consumo, edge, mobile) — sem ela, muitos modelos grandes simplesmente não caberiam ou seriam inviáveis de rodar localmente. Vale registrar, porém, que "pequena" é relativo: depende do nível de quantização (8 bits costuma ser quase imperceptível; 4 bits ou menos pode degradar tarefas mais exigentes, como raciocínio complexo) e da técnica usada (quantização pós-treinamento simples vs. técnicas mais sofisticadas como GPTQ, AWQ, GGUF). Isso é um ponto a aprofundar quando eu estudar técnicas específicas de quantização.
 
-## Dúvidas / pontos a aprofundar
+## Mapa da ignorância
 
 - Quais são as principais técnicas de quantização (GPTQ, AWQ, GGUF, bitsandbytes) e como elas diferem?
 - Em que ponto a perda de precisão deixa de ser "mínima" e passa a afetar a qualidade das respostas de forma perceptível?

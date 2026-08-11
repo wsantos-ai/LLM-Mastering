@@ -41,7 +41,7 @@ O livro trata compressão de modelos com os mesmos trade-offs usados para [Quant
 
 Isso reforça uma leitura mais ampla: "reduzir custo computacional de um LLM" é um objetivo que se persegue em várias frentes (quantização = precisão numérica dos pesos; compressão = quantidade/redundância de parâmetros; LoRA = quantidade de parâmetros *treináveis*), e o livro parece apresentá-las como parte de uma mesma caixa de ferramentas de otimização.
 
-## Dúvidas / pontos a aprofundar
+## Mapa da ignorância
 
 - Como pruning estruturado difere de pruning não-estruturado, e o impacto de cada um no ganho real de velocidade?
 - Como funciona a distillation na prática (loss usado, o que é replicado — logits, respostas, ou representações internas)?
