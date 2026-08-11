@@ -2,7 +2,7 @@
 
 > Data: 2026-08-11
 > Tópico: [Palavras-chave: Quantização](../PALAVRAS-CHAVE.md)
-> Fontes: livro (título não registrado — completar depois)
+> Fontes: livro "Mastering Ollama: Run, Optimize, and Deploy AI Models Locally", Ted Winston
 
 ## Resumo
 
@@ -32,7 +32,6 @@ A perda de flexibilidade para fine-tuning acontece porque pesos quantizados têm
 - Quais são as principais técnicas de quantização (GPTQ, AWQ, GGUF, bitsandbytes) e como elas diferem?
 - Em que ponto a perda de precisão deixa de ser "mínima" e passa a afetar a qualidade das respostas de forma perceptível?
 - Como o QLoRA contorna a perda de flexibilidade para fine-tuning?
-- Qual o nome do livro que originou essa nota (registrar em "Fontes").
 
 ## Referências relacionadas
 
