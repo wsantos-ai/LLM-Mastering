@@ -11,6 +11,7 @@ Cada nota individual também pode ter sua própria seção "Mapa da ignorância"
 3. [ ] Latência: o que é e como medir?
 4. [ ] Layers: o que são e o que fazem?
 5. [ ] Arquitetura Transformer
+6. [ ] Conferir data/fonte do lançamento do GPT-5 na [Linha do tempo](LINHA-DO-TEMPO.md) — registrado como 2024, mas o ID do paper informado (`2601.03267`) aponta para janeiro/2026
 
 ## Respondidas
 
