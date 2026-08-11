@@ -6,7 +6,7 @@ Documentação estruturada dos meus estudos sobre Large Language Models (LLMs) �
 
 - Cada pasta é um tópico. Dentro dela, cada arquivo `.md` é uma nota sobre um assunto específico.
 - Toda nota nova parte do [`_template.md`](_template.md) — copie o arquivo e preencha.
-- Termos e siglas recorrentes vão no [`GLOSSARIO.md`](GLOSSARIO.md).
+- Palavras-chave e conceitos, com descrição objetiva (sem aprofundamento), vão no [`PALAVRAS-CHAVE.md`](PALAVRAS-CHAVE.md).
 - Ideias soltas, links para ler depois e coisas para investigar ficam em [`BACKLOG.md`](BACKLOG.md).
 
 ## Índice de tópicos
