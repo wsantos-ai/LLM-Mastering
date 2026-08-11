@@ -9,6 +9,7 @@ Documentação estruturada dos meus estudos sobre Large Language Models (LLMs) �
 - Palavras-chave e conceitos, com descrição objetiva (sem aprofundamento), vão no [`PALAVRAS-CHAVE.md`](PALAVRAS-CHAVE.md).
 - Ideias soltas, links para ler depois e coisas para investigar ficam em [`BACKLOG.md`](BACKLOG.md).
 - Perguntas em aberto e lacunas de conhecimento ficam no [`MAPA-DA-IGNORANCIA.md`](MAPA-DA-IGNORANCIA.md).
+- Materiais usados como referência (artigos, livros, cursos) ficam no [`FONTES.md`](FONTES.md).
 
 ## Índice de tópicos
 
