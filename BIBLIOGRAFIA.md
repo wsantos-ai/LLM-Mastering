@@ -50,6 +50,25 @@ nota). Dentro de cada eixo, ordem cronológica de publicação.
 
 ---
 
+## Eixo: impacto social e ética
+
+### [B-003] Fairness and Machine Learning: Limitations and Opportunities
+- **Autores:** Solon Barocas, Moritz Hardt, Arvind Narayanan
+- **Publicação:** 2023-12-19 · **Editora:** MIT Press (série *Adaptive Computation and Machine
+  Learning*)
+- **ISBN:** 9780262048613 · 340 p. · Texto integral disponível em
+  [fairmlbook.org](https://fairmlbook.org/) (CC BY-NC-ND 4.0)
+- **Estado:** catalogado · **Origem:** `sugerido` — obra de referência do campo ao estudar
+  [F-011] e [F-014] (Barocas é coautor de [F-011]; Narayanan, de [F-010])
+- **Descrição:** Tratamento sistemático de justiça em aprendizado de máquina: de onde vem a
+  disparidade, os critérios formais de *fairness* e por que eles conflitam entre si, e os
+  limites do que uma correção estatística consegue resolver quando o problema é social. Serve
+  como base conceitual para não tratar viés em LLM como um bug isolado de corpus, e cobre em
+  profundidade o resultado de impossibilidade que [F-014] formaliza.
+- **Desdobramentos:** [01-fundamentos/bias-e-fairness.md](01-fundamentos/bias-e-fairness.md)
+
+---
+
 ## Candidatas
 
 Sugestões de expansão do acervo. **Só sobem para o acervo principal quando aprovadas.** Todas
@@ -62,3 +81,11 @@ verificadas quanto a título, autor, editora e ano.
 | Understanding Computers and Cognition: A New Foundation for Design | Terry Winograd, Fernando Flores | 1986 · Ablex Publishing | **Antecedente** | Anterior à formulação de Harnad, argumenta que sistemas computacionais não têm acesso ao contexto de ação que dá sentido à linguagem — a raiz do problema de *grounding* aplicada a projeto de sistemas. Winograd vinha do SHRDLU, o caso emblemático de "mundo de brinquedo" onde o grounding era artificialmente resolvido. |
 | The Embodied Mind: Cognitive Science and Human Experience | Francisco J. Varela, Evan Thompson, Eleanor Rosch | 1991 · MIT Press | **Contraponto / ponte** | Uma das obras fundadoras da cognição corporificada: significado emerge da interação de um corpo com um ambiente, não de manipulação de representações. É a tese contrária à de que texto puro basta ([F-004]), e liga o eixo técnico ao eixo filosofia/ciência cognitiva. |
 | Linguistics for the Age of AI | Marjorie McShane, Sergei Nirenburg | 2021 · MIT Press (ISBN 9780262045582) | **Contraponto / aprofundamento** | Defesa contemporânea de agentes que interpretam linguagem via modelagem cognitiva explícita e conhecimento estruturado, em oposição à abordagem puramente estatística. Evita que a bibliografia fique restrita à escola conexionista. Disponível em acesso aberto pela MIT Press. |
+
+### Motivadas por [B-003] / pelo tema *bias e fairness*
+
+| Obra | Autor(es) | Ano · Editora | Papel | Por que |
+|---|---|---|---|---|
+| Weapons of Math Destruction: How Big Data Increases Inequality and Threatens Democracy | Cathy O'Neil | 2016 · Crown (ISBN 9780553418811) | **Antecedente** | Popularizou, antes da era dos LLMs, a tese de que sistemas estatísticos em escala reproduzem e amplificam desigualdade sob aparência de neutralidade. É o antecedente direto do enquadramento de [B-003], em registro não técnico. |
+| Algorithms of Oppression: How Search Engines Reinforce Racism | Safiya Umoja Noble | 2018 · NYU Press (ISBN 9781479837243) | **Ponte** | Estuda viés em sistemas de **linguagem e busca** especificamente — o caso mais próximo de um LLM antes dos LLMs. Liga a discussão estatística de [B-003] a como o corpus da web codifica representação social, que é exatamente o achado de [F-013]. |
+| Atlas of AI: Power, Politics, and the Planetary Costs of Artificial Intelligence | Kate Crawford | 2021 · Yale University Press (ISBN 9780300209570) | **Ponte / contraponto** | Desloca o problema de "corrigir o modelo" para as condições materiais que o produzem: dados, trabalho, energia, extração. Contraponto à leitura de que viés é uma propriedade ajustável do sistema. |
