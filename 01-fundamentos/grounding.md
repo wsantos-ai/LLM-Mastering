@@ -1,8 +1,18 @@
 # Grounding
 
-> Data: 2026-08-12
+> Data: 2026-08-12 · Reescrita em formato de aula: 2026-08-14
 > Tópico: [01-fundamentos](../) · [Palavras-chave: Grounding](../PALAVRAS-CHAVE.md)
 > Fontes: [B-001] Pai, *Designing Large Language Model Applications* · [F-002] Harnad (1990) · [F-003] Bender & Koller (2020) · [F-004] Mollo & Millière (2023)
+
+## Chamada da aula
+
+Você já tentou aprender uma palavra nova consultando o dicionário e caindo naquele ciclo
+maravilhoso? "Perscrutar: examinar minuciosamente." Ótimo. "Minuciosamente: de modo minucioso."
+Excelente. "Minucioso: relativo a minúcia." Obrigado, volto sempre.
+
+Agora imagine passar a **vida inteira** dentro desse ciclo, sem nunca ter visto nada do lado de
+fora do dicionário. Bem-vindo ao problema de *grounding* — e a hipótese incômoda de que talvez
+seja exatamente essa a situação do modelo que você usou hoje de manhã.
 
 ## Resumo
 
@@ -23,12 +33,13 @@ passa por aqui.
   problem* em 1990 [F-002]: como os símbolos de um sistema formal adquirem significado sem
   depender de outro intérprete humano na ponta? A analogia dele é aprender chinês tendo
   acesso só a um dicionário chinês-chinês — os símbolos remetem uns aos outros, nunca ao
-  mundo.
+  mundo. (Sim: a piada da chamada desta aula tem 1990 e é do Harnad. Eu só troquei o chinês
+  por "perscrutar".)
 - **"Grounding" não é um conceito único.** [confirmado] Mollo & Millière separam o
   *grounding referencial* — "the connection between a representation and its worldly
   referent" — de outros sentidos do termo, e sustentam que só o referencial resolve o
   problema de Harnad [F-004]. Isso é importante porque na prática de engenharia a palavra é
-  usada em pelo menos três acepções diferentes (ver Detalhes).
+  usada em pelo menos três acepções diferentes (ver a Aula).
 - **A definição formal vem da ciência cognitiva, e é sobre interlocutores.** [confirmado]
   [B-001] (cap. 2) adota a definição de [F-005]: *"The process of establishing what mutual
   information is required for successful communication between two interlocutors"*. Note que
@@ -52,7 +63,7 @@ passa por aqui.
   informação — e que isso **não** exige multimodalidade nem corporeidade [F-004]. É uma
   posição de contraponto direto a [F-003].
 
-## Detalhes
+## Aula
 
 ### Três usos do termo que convém não misturar
 
@@ -74,6 +85,11 @@ Os três compartilham a intuição — ligar a fala a algo que a sustenta —, m
 mecanismo de fidelidade a uma fonte, **não** uma solução do (1). Um sistema pode citar
 corretamente um documento e continuar sem qualquer acesso ao referente do documento.
 
+**Guarde essa imagem:** o sentido (3) é o estagiário que responde tudo citando o manual da
+empresa. Ele nunca erra a página. Ele também nunca pisou na fábrica. Se o manual estiver
+errado, ele erra com nota de rodapé — e uma nota de rodapé é a forma mais elegante de estar
+redondamente enganado.
+
 ### A experiência mental do "polvo" [F-003]
 
 Bender & Koller propõem o *octopus test*: duas pessoas em ilhas distintas trocam mensagens
@@ -82,6 +98,17 @@ regularidades estatísticas das mensagens e passa a responder no lugar de uma de
 a conversa for social, ele engana. Quando um lado descreve um objeto novo e pede ajuda para
 construí-lo, o polvo falha — nunca teve acesso àquilo de que as palavras falam. É o argumento
 de que forma sem referente não vira compreensão, por mais bem modelada que a forma esteja.
+
+Traduzindo para o século XXI: o polvo é ótimo em *small talk* e péssimo em suporte técnico. Ele
+passaria fácil numa entrevista comportamental e explodiria no primeiro chamado de "meu
+equipamento está fazendo um barulho estranho, o que eu faço?".
+
+**Onde a analogia do polvo trinca** — e é bom saber disso antes de brigar com alguém na
+internet: ela é um argumento sobre o que é aprendível **em princípio** a partir de forma, não
+uma medição de desempenho de nenhum modelo real. Quem responde "mas o meu modelo resolveu esse
+tipo de problema ontem" está respondendo a outra pergunta. E quem usa o polvo para dizer "logo,
+LLMs nunca servirão para nada" também extrapolou: [F-004] aceita o enquadramento e chega à
+conclusão oposta.
 
 ### Por que isso é decisão de projeto, e não só filosofia
 
@@ -94,6 +121,58 @@ O grau de grounding que a aplicação exige muda a arquitetura:
   execução, verificação.
 - Alucinação, vista por esta lente, deixa de ser "o modelo mentiu" e vira "não havia canal
   entre a afirmação gerada e aquilo que a tornaria verdadeira ou falsa".
+
+Essa última linha é a mais útil da nota inteira para quem constrói sistema. Alucinação para de
+ser um defeito de caráter do modelo e vira uma **lacuna de arquitetura** que você desenhou —
+provavelmente sem perceber, provavelmente numa sprint apertada.
+
+## Exemplos práticos
+
+1. **"Compila?" é uma pergunta aterrada; "está bonito?" não é.** Peça ao modelo para
+   refatorar uma função e ele te devolve algo plausível. Rode o teste e o mundo responde:
+   passa ou não passa. O raciocínio: o executor de testes é literalmente o canal para o mundo
+   que o texto sozinho não tem — por isso agente com ferramenta acerta onde chat puro chuta.
+   Note que o modelo não ficou mais inteligente; ele ficou mais **conectado**.
+2. **O contra-caso, que é o mais importante:** RAG citando corretamente um documento errado.
+   O sistema recupera a política de reembolso de 2019, cita a página, formata bonito — e o
+   cliente recebe uma regra revogada. Fidelidade à fonte: perfeita. Grounding no sentido (1):
+   zero. É a demonstração de que o sentido (3) desloca a pergunta em vez de resolvê-la: agora
+   o que precisa estar aterrado é o **corpus**, e ninguém perguntou quem aterra o corpus.
+
+## Exercícios
+
+1. **Complete a frase com bom humor:** "O polvo de Bender & Koller é excelente em ______ e
+   desastroso em ______, porque ele tem acesso a ______ e nunca a ______."
+2. **Ache o erro cômico:** "Coloquei RAG no meu chatbot, então agora ele está *grounded* e o
+   problema do symbol grounding, que atormentava a filosofia desde 1990, está resolvido. De
+   nada, Harnad."
+3. **Transforme a frase:** reescreva "o modelo alucinou" usando o vocabulário desta aula, de
+   modo que a frase aponte para um culpado consertável.
+4. **Verdadeiro ou vergonhoso:** "Se um modelo multimodal vê imagens, o problema de grounding
+   está resolvido para ele."
+
+<details>
+<summary>Gabarito comentado</summary>
+
+1. Excelente em **conversa social** (*small talk*), desastroso em **tarefa que depende de um
+   objeto do mundo** (o pedido de ajuda para construir algo novo); tem acesso a **forma** — as
+   regularidades estatísticas das mensagens — e nunca ao **referente**. A frase é a estrutura
+   inteira do argumento de [F-003] em uma linha.
+2. O erro é confundir os sentidos (3) e (1). RAG entrega **fidelidade a uma fonte recuperada**;
+   o problema de Harnad é sobre como o símbolo adquire referência, e citar um documento não dá
+   ao modelo acesso ao referente **do documento**. Bônus: RAG desloca a pergunta para "o que
+   aterra o corpus?", que continua sem resposta. Harnad segue sem agradecer.
+3. Por exemplo: "não havia canal entre a afirmação gerada e aquilo que a tornaria verdadeira ou
+   falsa." O culpado consertável é a **arquitetura** — falta *retrieval*, chamada de
+   ferramenta, execução ou verificação. Repare no que mudou: saiu a acusação moral ("o modelo
+   mentiu"), entrou um item de backlog.
+4. **Vergonhoso** — mas por um motivo sutil: a resposta correta não é "não resolve", é **"não
+   se sabe"**. [B-001] registra explicitamente como questão não resolvida se modelos
+   multimodais realmente ajudam, e [F-004] sustenta que multimodalidade nem sequer é
+   necessária. Quem responde com certeza para qualquer um dos lados está mais confiante que a
+   literatura. É a pergunta 6 do [Mapa da ignorância](../MAPA-DA-IGNORANCIA.md).
+
+</details>
 
 ## Minha análise
 
@@ -129,6 +208,20 @@ execução — em vez de virar disputa de definição de "entender".
 Também vale registrar um viés meu a vigiar: é tentador tratar RAG como se resolvesse o
 problema de grounding, porque a palavra é a mesma. Pelo que li, não resolve — desloca a
 questão do modelo para o corpus, e a pergunta "o que aterra o corpus?" continua aberta.
+
+## Resumo cômico
+
+- Grounding = ligar a palavra àquilo de que ela fala. O dicionário chinês-chinês de Harnad é o
+  pesadelo de origem, e ele é de 1990 [F-002].
+- A palavra tem três empregos e nenhum deles avisa qual está usando: filosófico, multimodal e
+  "responder com base em fonte".
+- O polvo [F-003] arrasa no bate-papo e afunda no chamado técnico.
+- RAG não resolve o problema — muda o endereço dele para o corpus.
+- Multimodalidade resolve? A literatura, com todas as letras, diz **não se sabe** [B-001].
+
+> **Takeaway:** alucinação não é o modelo mentindo, é você tendo esquecido de instalar o fio
+> terra. E fio terra, na sua arquitetura, tem nome: *retrieval*, ferramenta, execução,
+> verificação.
 
 ## Mapa da ignorância
 

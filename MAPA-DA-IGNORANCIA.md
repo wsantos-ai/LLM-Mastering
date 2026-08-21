@@ -2,13 +2,22 @@
 
 Lista central de tudo que eu sei que ainda não sei — perguntas em aberto e pontos a aprofundar, vindos de qualquer nota ou leitura. Quando uma pergunta for respondida em uma nota de tópico, ela é marcada como concluída aqui e o link passa a apontar para a resposta.
 
+Se as notas são as aulas, este arquivo é **a lista de chamada dos alunos que faltaram** — e a
+graça é que o professor sou eu. Nenhum item aqui é motivo de vergonha: vergonha é a pergunta
+que existe e não está escrita, porque essa a gente responde errado com muita confiança em
+reunião. Um mapa que só encolhe não é sinal de sabedoria, é sinal de que o estudo parou de
+cutucar onde dói.
+
 Cada nota individual também pode ter sua própria seção "Mapa da ignorância" local (ver [`_template.md`](_template.md)); os itens relevantes migram para cá quando viram uma lacuna de estudo mais ampla, não só um detalhe pontual da nota.
+
+Níveis: `fundamento` (bloqueia o resto — é a matéria que cai na prova toda), `aplicação`
+(decide arquitetura), `curiosidade` (a pergunta do fim da aula, que às vezes é a melhor).
 
 ## Em aberto
 
 1. [ ] O que é truncamento de contexto?
 2. [ ] Quantização: o que é, técnicas, prós e contras — *nota inicial já existe em [07-ferramentas-ecossistema/quantizacao.md](07-ferramentas-ecossistema/quantizacao.md), mas falta detalhar técnicas específicas (GPTQ, AWQ, GGUF, bitsandbytes).*
-3. [ ] Latência: o que é e como medir?
+3. [ ] Latência: o que é e como medir? *Parcialmente aterrada por [01-fundamentos/kv-caching.md](01-fundamentos/kv-caching.md): a inferência tem duas fases com gargalos distintos (prefill e decode), então há pelo menos duas latências a medir — até o primeiro token e entre tokens. `[não verificado]` os nomes usuais (TTFT e TPOT) ainda carecem de fonte primária.*
 4. [ ] Layers: o que são e o que fazem?
 5. [ ] Arquitetura Transformer
 6. [ ] `fundamento` — Modelos multimodais (visão + texto) resolvem, atenuam ou apenas deslocam o problema de *symbol grounding*? *Importa porque define se "dar olhos ao modelo" é solução de fundo ou paliativo — e isso muda o que esperar de VLMs. **Esta pergunta está reconhecidamente em aberto na própria literatura** ([B-001], cap. 2): não se sabe se texto massivo e diverso basta ou se multimodalidade é obrigatória. Já se tentou: leitura de [F-002], [F-003] e [F-004]; [F-004] afirma que multimodalidade não é necessária, mas não é consenso. Ver [01-fundamentos/grounding.md](01-fundamentos/grounding.md).*
@@ -28,6 +37,12 @@ Cada nota individual também pode ter sua própria seção "Mapa da ignorância"
 20. [ ] `aplicação` — Mitigação em pré-treino (curadoria, rebalanceamento) versus pós-treino (RLHF, filtro de saída): há comparação empírica de eficácia e custo? *`[hipótese]` minha: pós-treino trata a manifestação e não a representação interna, o que faria medir só a saída superestimar a mitigação.*
 21. [ ] `aplicação` — Como se mede viés em modelo **generativo**, dado que o WEAT de [F-010] foi construído para *embeddings* estáticos? *Que instrumento substituiu, e ele sofre da crítica de [F-011] de método desconectado do objetivo declarado?*
 22. [ ] `curiosidade` — Línguas sub-representadas gastam mais tokens por palavra, encarecendo uso e reduzindo contexto efetivo? `[não verificado]` — *afirmação que ouço repetida; preciso de fonte primária com números antes de registrar como fato.*
+23. [ ] `fundamento` — Qual é a contabilidade formal do custo de gerar *n* tokens com e sem KV cache? *Importa porque venho repetindo que o trabalho recalculado cai de ~n² para ~n, e isso é raciocínio meu, não achado de fonte — [F-016] fala de banda de memória, não dessa conta. Se estiver errado, a intuição que uso para explicar a técnica está errada junto. Ver [01-fundamentos/kv-caching.md](01-fundamentos/kv-caching.md).*
+24. [ ] `aplicação` — Existe regime em que **recomputar** o KV cache é melhor que armazená-lo (memória escassa, contexto muito longo)? *Importa porque define o que um servidor deve fazer sob pressão de memória: descartar e recomputar, mover para CPU, ou recusar a requisição. Nada tentado.*
+25. [ ] `aplicação` — Quantizar o próprio KV cache (FP8/INT8) é prática corrente, e qual a perda? *Importa porque o cache é o que cresce durante a geração — quantizar peso resolve metade da conta de memória, e esta é a outra metade. Liga [01-fundamentos/kv-caching.md](01-fundamentos/kv-caching.md) a [07-ferramentas-ecossistema/quantizacao.md](07-ferramentas-ecossistema/quantizacao.md). Nada tentado.*
+26. [ ] `aplicação` — *Prefix caching*: [F-018] afirma permitir *"flexible sharing of KV cache within and across requests"*. Quanto isso rende quando muitos usuários compartilham o mesmo *system prompt*, e qual o risco de isolamento entre clientes? *Importa porque é ganho grande em produto multiusuário e, ao mesmo tempo, superfície de vazamento entre sessões.*
+27. [ ] `curiosidade` — Nos ganhos de MQA [F-016] e GQA [F-017], quanto vem de reduzir **memória ocupada** e quanto de reduzir **banda**? *Importa para saber qual gargalo a técnica de fato ataca — as fontes citam os dois efeitos juntos. E quanto custa em qualidade o "close to" de [F-017]?*
+28. [ ] `aplicação` — Como KV caching interage com *continuous batching* (lição seguinte de [F-019])? *Importa porque, se o limite de usuários simultâneos é memória de cache, a estratégia de lote depende inteiramente de como o cache é alocado — foi o que [F-018] atacou.*
 
 ## Respondidas
 

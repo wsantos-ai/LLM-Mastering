@@ -8,6 +8,15 @@ ID estável `[B-xx]`, citável nas notas. Estado: `lido` / `parcial` / `na fila`
 (registrado, ainda sem intenção de leitura — **catalogar não é ler**, obra não lida não gera
 nota). Dentro de cada eixo, ordem cronológica de publicação.
 
+Se `FONTES.md` é a lista de presença, esta aqui é **a estante da sala dos professores**: o
+lugar onde se descobre que a pergunta que você achou original tinha sido feita em 1990, com
+mais elegância e menos slides. A ordem cronológica dentro de cada eixo existe justamente para
+isso — ela revela a linhagem intelectual, e linhagem é o antídoto contra achar que o campo
+começou no ano em que você chegou.
+
+Fichas catalográficas continuam sem piada: título, autor, editora e ano são verificados, nunca
+presumidos. **Livro plausível mas não confirmado não entra — nem como candidata.**
+
 ---
 
 ## Eixo: aplicação e engenharia

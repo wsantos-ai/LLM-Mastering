@@ -6,11 +6,18 @@ vídeos, cursos). **Livros ficam em [`BIBLIOGRAFIA.md`](BIBLIOGRAFIA.md)**, com 
 Cada fonte tem um ID estável `[F-xx]`, citado nas notas. Estado de leitura: `lida`,
 `parcial`, `na fila`.
 
+Se as notas são as aulas — com piada, analogia e exercício —, este arquivo é **a lista de
+presença dos autores que fizeram o trabalho pesado**. Por isso aqui não tem trocadilho: linha
+de fonte é dado, e dado errado numa tabela dessas contamina toda aula que citar o ID.
+Regra prática: **fonte lida gera pelo menos uma nota ou uma pergunta.** Fonte lida e sem
+desdobramento é aquele curso que a gente comprou na promoção e assistiu no 2×.
+
 ## Arquitetura e fundamentos
 
 | ID | Título | Autores / Org. | Data | Tipo | Link | Estado | O que essa fonte resolve |
 |---|---|---|---|---|---|---|---|
 | F-001 | Transformer Architecture Explained With Self-Attention Mechanism | Codecademy | — | Artigo (secundário) | [codecademy.com](https://www.codecademy.com/article/transformer-architecture-self-attention-mechanism) | parcial | Primeira visão geral da arquitetura *transformer* e do mecanismo de *self-attention*. Tópico: [01-fundamentos](01-fundamentos/) |
+| F-015 | Attention Is All You Need | Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin | 2017-06-12 (v1); v7 em 2023-08-02 | Paper (NeurIPS 2017) | [arxiv.org/abs/1706.03762](https://arxiv.org/abs/1706.03762) | na fila | Fonte primária da arquitetura *transformer* e da atenção multi-cabeça. Base para entender por que a geração autorregressiva recalcula chaves e valores — o problema que o KV cache resolve. |
 
 ## Semântica, significado e grounding
 
@@ -31,6 +38,15 @@ Cada fonte tem um ID estável `[F-xx]`, citado nas notas. Estado de leitura: `li
 | F-008 | Scaling Data-Constrained Language Models | Niklas Muennighoff, Alexander M. Rush, Boaz Barak, Teven Le Scao, Aleksandra Piktus, Nouamane Tazi, Sampo Pyysalo, Thomas Wolf, Colin Raffel | 2023-05-25 | Paper (arXiv) | [arxiv.org/abs/2305.16264](https://arxiv.org/abs/2305.16264) | parcial | Contraponto: em cenário de dados escassos, até 4 épocas de dados repetidos têm efeito desprezível na *loss*. Define quando repetir é aceitável. |
 | F-009 | SemDeDup: Data-efficient learning at web-scale through semantic deduplication | Amro Abbas, Kushal Tirumala, Dániel Simig, Surya Ganguli, Ari S. Morcos | 2023-03-16 (v1); rev. 2023-03-22 | Paper (arXiv) | [arxiv.org/abs/2303.09540](https://arxiv.org/abs/2303.09540) | na fila | Deduplicação **semântica** via *embeddings*, além do casamento de string: em LAION, remover 50% dos dados com perda mínima e metade do tempo de treino. |
 
+## Inferência e serving
+
+| ID | Título | Autores / Org. | Data | Tipo | Link | Estado | O que essa fonte resolve |
+|---|---|---|---|---|---|---|---|
+| F-016 | Fast Transformer Decoding: One Write-Head is All You Need | Noam Shazeer | 2019-11-06 | Paper (arXiv) | [arxiv.org/abs/1911.02150](https://arxiv.org/abs/1911.02150) | parcial | Nomeia o gargalo real da inferência incremental: o custo de **largura de banda de memória** de recarregar repetidamente os tensores de chaves e valores. Propõe *multi-query attention* (MQA) para encolher esses tensores. É a fonte que explica por que o KV cache troca compute por memória — e por que a memória vira o novo limite. |
+| F-017 | GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints | Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebrón, Sumit Sanghai | 2023-05-22 | Paper (arXiv; EMNLP 2023) | [arxiv.org/abs/2305.13245](https://arxiv.org/abs/2305.13245) | parcial | Meio-termo entre MQA e atenção multi-cabeça: número intermediário de cabeças de chave-valor, com qualidade próxima à MHA e velocidade próxima à MQA, mais receita de *uptraining* usando 5% do compute de pré-treino. |
+| F-018 | Efficient Memory Management for Large Language Model Serving with PagedAttention | Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu, Joseph E. Gonzalez, Hao Zhang, Ion Stoica | 2023-09-12 | Paper (arXiv; SOSP 2023) | [arxiv.org/abs/2309.06180](https://arxiv.org/abs/2309.06180) | parcial | Quantifica o custo do KV cache em produção (800 KB por token em OPT-13B) e mostra que sistemas anteriores usavam de fato só 20,4%–38,2% da memória reservada para ele. Origem do PagedAttention e do vLLM: ganho de 2–4× em *throughput* com a mesma latência. |
+| F-019 | Efficiently Serving LLMs (curso) | Travis Addair (Co-Founder e CTO, Predibase) / DeepLearning.AI | data de publicação não confirmada (consulta em 2026-08-14) | Curso (vídeo + notebooks) | [deeplearning.ai/courses/efficiently-serving-llms](https://www.deeplearning.ai/courses/efficiently-serving-llms) | parcial | Curso onde o tema apareceu. KV caching é tratado dentro da lição **Text Generation** (não há lição com esse título); as lições são Introduction, Text Generation, Batching, Continuous Batching, Quantization, Low-Rank Adaptation, Multi-LoRA Inference, LoRAX, Conclusion, Quiz. A descrição promete implementar em código *"KV caching, continuous batching, and model quantization, and benchmark their impacts on inference throughput and latency"*. Fonte de didática e de código, não de resultado experimental. |
+
 ## Viés, justiça e impacto social
 
 | ID | Título | Autores / Org. | Data | Tipo | Link | Estado | O que essa fonte resolve |
@@ -43,4 +59,5 @@ Cada fonte tem um ID estável `[F-xx]`, citado nas notas. Estado de leitura: `li
 
 Notas que usam estas fontes: [01-fundamentos/grounding.md](01-fundamentos/grounding.md),
 [01-fundamentos/deduplicacao.md](01-fundamentos/deduplicacao.md),
-[01-fundamentos/bias-e-fairness.md](01-fundamentos/bias-e-fairness.md).
+[01-fundamentos/bias-e-fairness.md](01-fundamentos/bias-e-fairness.md),
+[01-fundamentos/kv-caching.md](01-fundamentos/kv-caching.md).

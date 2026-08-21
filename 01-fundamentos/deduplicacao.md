@@ -1,8 +1,18 @@
 # Deduplicação (*deduplication*)
 
-> Data: 2026-08-13
+> Data: 2026-08-13 · Reescrita em formato de aula: 2026-08-14
 > Tópico: [01-fundamentos](../) · [Palavras-chave: Deduplicação](../PALAVRAS-CHAVE.md)
 > Fontes: [F-006] Lee et al. (2022) · [F-007] Kandpal et al. (2022) · [F-008] Muennighoff et al. (2023) · [F-009] Abbas et al. (2023)
+
+## Chamada da aula
+
+Imagine que você estuda para um concurso com uma apostila de dez mil páginas. Só que, por um
+acidente da gráfica, a frase *"o presente contrato é regido pelas leis da República"* aparece
+sessenta mil vezes ao longo do material. No dia da prova, você não sabe responder nada — mas
+sabe recitar aquela frase de trás para frente, com entonação.
+
+Parabéns: você acabou de simular um LLM treinado em corpus não deduplicado. E o pior é que não
+é exagero didático — o número saiu de um paper de verdade, e ele está três parágrafos abaixo.
 
 ## Resumo
 
@@ -40,21 +50,25 @@ e validade da avaliação.
   duplicação **descontrolada e desconhecida** dentro do corpus, não a repetição deliberada e
   medida.
 
-## Detalhes
+## Aula
 
 ### Dois níveis de "duplicado"
 
 1. **Duplicação exata / quase exata** — o mesmo documento ou a mesma sequência longa de
    tokens aparecendo várias vezes. [F-006] ataca isso com duas famílias de método:
    - **Documento inteiro, aproximado**: assinatura tipo *MinHash* + LSH para achar pares com
-     alta similaridade sem comparar todos contra todos.
+     alta similaridade sem comparar todos contra todos. *É o porteiro que reconhece o morador
+     pelo andar e pelo casaco, sem conferir o RG de cada um dos oitocentos.*
    - **Substring exata**: *suffix array* para encontrar toda sequência longa repetida entre
      documentos, mesmo que os documentos como um todo sejam diferentes. Esse é o caso comum
-     na web — *boilerplate*, avisos legais, textos de licença, cabeçalhos.
+     na web — *boilerplate*, avisos legais, textos de licença, cabeçalhos. *É o "aceito os
+     termos de uso" que você assinou 4 mil vezes na vida e nunca leu uma.*
 2. **Duplicação semântica** — textos diferentes que dizem essencialmente a mesma coisa.
    Escapam de qualquer casamento de string. [F-009] (SemDeDup) usa *embeddings* de um modelo
    pré-treinado para agrupar pares semanticamente próximos: em LAION, remover **50%** dos
-   dados custou perda mínima de desempenho e cortou o tempo de treino pela metade.
+   dados custou perda mínima de desempenho e cortou o tempo de treino pela metade. *É o grupo
+   da família mandando a mesma corrente reescrita por sete pessoas diferentes: nenhum caractere
+   bate, e é tudo a mesma mensagem.*
 
 A progressão importa: quanto mais "semântica" a deduplicação, maior o ganho de eficiência e
 maior o risco de jogar fora variação legítima.
@@ -64,6 +78,16 @@ maior o risco de jogar fora variação legítima.
 Não é acidente de coleta. É *boilerplate* de template, republicação de notícia por agência,
 espelhos e *scrapers*, termos de uso, texto gerado por template, e — cada vez mais — texto de
 LLM republicado. O corpus herda a estrutura econômica da web.
+
+**A analogia central:** o modelo não decora por burrice, decora por *insistência alheia*. Se
+alguém te repete a mesma frase sessenta mil vezes, você também aprende — e a graça amarga é
+que [F-007] mostra que bastam **dez** repetições para o efeito explodir mil vezes. Não é uma
+subida suave: é interruptor.
+
+**Onde a analogia trinca:** o aluno humano percebe que está sendo repetido e se irrita; o
+modelo não tem esse mecanismo. Ele não distingue "isso apareceu muito porque é importante" de
+"isso apareceu muito porque um scraper duplicou o site". Toda a diferença entre sabedoria e
+papagaio, aqui, foi decidida *antes* do treino, por quem montou o corpus.
 
 ### Onde a deduplicação aparece no ciclo de vida
 
@@ -75,6 +99,53 @@ LLM republicado. O corpus herda a estrutura econômica da web.
   em fonte — virou pergunta aberta.
 - **Avaliação**: separar o conjunto de teste do de treino é, na prática, um problema de
   deduplicação.
+
+## Exemplos práticos
+
+1. **O benchmark que mede a própria cola.** [F-006] mostra sobreposição treino–teste afetando
+   *"over 4% of the validation set of standard datasets"*. Traduzindo: em 4% da prova, o modelo
+   já tinha visto o gabarito. O raciocínio é o que interessa — a nota sobe, a capacidade não, e
+   você só descobre a diferença quando coloca o sistema na frente de um caso novo, em produção,
+   numa sexta-feira à noite.
+2. **O contra-caso que salva a técnica:** língua com pouco dado disponível. Segundo [F-008],
+   em cenário de dados escassos, até 4 épocas de repetição têm efeito desprezível na *loss*.
+   Ou seja: passar o mesmo corpus quatro vezes, de propósito e por igual, é decisão de
+   engenharia; ter uma frase repetida 60 mil vezes enquanto o resto aparece uma vez é acidente.
+   Mesma palavra ("repetição"), dois fenômenos — e é justamente essa distinção que virou a
+   pergunta 12 do [Mapa da ignorância](../MAPA-DA-IGNORANCIA.md).
+
+## Exercícios
+
+1. **Complete a frase com bom humor:** "Treinar sem deduplicar é como estudar por uma apostila
+   em que a página do ______ foi fotocopiada sessenta mil vezes: você gabarita ______ e
+   reprova em ______."
+2. **Ache o erro cômico:** "Deduplicação é aquela etapa chata de limpeza de dados, tipo tirar
+   espaço em branco — não muda nada no comportamento do modelo, só deixa o arquivo menor."
+3. **Transforme a frase:** pegue "repetir dados de treino é ruim" e reescreva como uma frase
+   verdadeira, com a condição que faltava.
+4. **Verdadeiro ou vergonhoso:** "Se dois textos não compartilham nenhum caractere idêntico,
+   eles não são duplicatas."
+
+<details>
+<summary>Gabarito comentado</summary>
+
+1. Sugestão: "...a página do **contrato** foi fotocopiada sessenta mil vezes: você gabarita
+   **a cláusula de foro** e reprova em **todo o resto**." O que a piada fixa: a memorização não
+   é distribuída, é concentrada exatamente onde houve repetição — e é por isso que ela aparece
+   como *emissão verbatim* na saída, e não como uma melhora geral.
+2. Errado em três frentes ao mesmo tempo, e é o ponto central da aula: deduplicar muda
+   **memorização** (~10× menos, [F-006]), muda **risco de privacidade** (ataques de extração
+   dependem em boa parte da duplicação, [F-007]) e muda **a validade do benchmark**
+   (sobreposição treino–teste, [F-006]). Menor no disco é o efeito menos interessante.
+3. Por exemplo: "repetir dados de treino **de forma desigual e desconhecida** é ruim — repetir
+   de forma deliberada e medida, até cerca de 4 épocas em cenário de dados escassos, tem efeito
+   desprezível na *loss* [F-008]." O que mudou foi a condição; o que continuou igual é que
+   ninguém defende sequência repetida 60 mil vezes.
+4. **Vergonhoso.** É exatamente a duplicação **semântica**, que escapa de qualquer casamento de
+   string e por isso exige *embeddings* — [F-009] removeu 50% do LAION assim, com perda mínima
+   e metade do tempo de treino. Casamento de caractere é o piso da deduplicação, não o teto.
+
+</details>
 
 ## Minha análise
 
@@ -90,6 +161,17 @@ deliberada é diferente de ter um punhado de sequências repetidas 60 mil vezes 
 resto aparece uma vez. O dano parece vir da **distribuição desigual** de repetição, que é
 exatamente o que [F-007] mede como superlinear. Preciso confirmar se os autores enquadram
 assim ou se estou construindo a ponte sozinho.
+
+## Resumo cômico
+
+- Corpus da web é mais repetitivo do que playlist de festa junina.
+- Deduplicar: ~10× menos memorização, mesma ou melhor acurácia, com menos passos [F-006].
+- Dez repetições já geram ~1000× mais emissão [F-007]. Não é rampa, é degrau.
+- Duplicata semântica não tem caractere em comum — só *embedding* pega [F-009].
+- Repetir de propósito e por igual, até ~4 épocas em dados escassos: liberado [F-008].
+
+> **Takeaway:** o modelo não decora o que é importante, decora o que insistiram com ele.
+> Deduplicar é decidir quem tem direito de insistir.
 
 ## Mapa da ignorância
 
@@ -114,3 +196,5 @@ assim ou se estou construindo a ponte sozinho.
 - [03-rag](../03-rag/) — deduplicação de *chunks*
 - [Compressão de modelos](../04-fine-tuning/compressao-de-modelos.md) — outra frente de
   redução de custo, mas atuando no modelo, não nos dados
+- [Bias e fairness](bias-e-fairness.md) — a mesma lição por outro ângulo: toda decisão de
+  curadoria é uma decisão sobre o que o modelo vai virar

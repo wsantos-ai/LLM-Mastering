@@ -1,8 +1,23 @@
 # Bias e Fairness no pré-treinamento
 
-> Data: 2026-08-14
+> Data: 2026-08-14 · Reescrita em formato de aula: 2026-08-14
 > Tópico: [01-fundamentos](../) · [Palavras-chave: Bias, Fairness](../PALAVRAS-CHAVE.md)
 > Fontes: [F-010] Caliskan et al. (2017) · [F-011] Blodgett et al. (2020) · [F-012] Bender et al. (2021) · [F-013] Dodge et al. (2021) · [F-014] Kleinberg et al. (2016) · [B-003] Barocas, Hardt & Narayanan (2023)
+
+> **Nota de tom.** Esta aula mantém o humor do repositório, mas o alvo da piada é sempre o
+> **sistema** e o **engenheiro distraído** — nunca as pessoas que sofrem o dano. Quando o
+> assunto é quem paga a conta de uma decisão técnica, a piada sai e fica o dado.
+
+## Chamada da aula
+
+Existe um corpus de treino cujo nome oficial contém a palavra "Clean": o *Colossal Clean
+Crawled Corpus*. Bonito, né? Dá até vontade de aplaudir a equipe de faxina.
+
+Aí alguém foi conferir o que a faxina tinha varrido para debaixo do tapete — e descobriu que a
+lista de palavras bloqueadas removia desproporcionalmente texto **de** e **sobre** minorias.
+Ninguém decidiu isso numa reunião. Foi uma lista de palavras, uma tarde, um script. É a aula
+inteira em uma frase: **decisão técnica que ninguém debateu continua sendo decisão** — e não
+tem nada de limpo nisso.
 
 ## Resumo
 
@@ -41,7 +56,19 @@ dados resolve por você.
   "tornar o modelo justo" não é uma especificação técnica — é preciso dizer *justo segundo
   qual critério*, e assumir o que se perde ao escolher.
 
-## Detalhes
+## Aula
+
+### Bias e fairness não são sinônimos, e confundir os dois custa caro
+
+Comece pela distinção que resolve metade das discussões improdutivas sobre o tema:
+
+- **Bias é um termômetro.** Ele mede: existe disparidade sistemática? de que tamanho? entre
+  quais grupos? Termômetro não opina.
+- **Fairness é a decisão de vestir o casaco.** Ela responde: essa disparidade é aceitável?
+  segundo qual princípio? quem decide?
+
+Nenhum termômetro do mundo decide se você vai sair de casa. Quando alguém pede "deixa o modelo
+justo", está pedindo o casaco e apontando para o termômetro.
 
 ### Onde o viés entra na cadeia de pré-treino
 
@@ -59,6 +86,16 @@ Cada etapa é uma decisão editorial, mesmo quando apresentada como técnica:
    palavra, o que encarece o uso e reduz o contexto efetivo. Efeito plausível e citado
    informalmente, mas **não verifiquei em fonte primária**.
 
+**A analogia:** montar corpus é montar a lista de convidados de uma festa e depois se
+surpreender com o assunto que domina a conversa. Você não escreveu o roteiro do papo — mas
+escolheu quem entra, e isso *é* escrever o roteiro, só que com uma camada de negação plausível
+no meio.
+
+**Onde a analogia trinca:** numa festa você conhece cada convidado pelo nome. Num corpus de
+trilhões de tokens, ninguém conhece — e esse é justamente o argumento de [F-012]: a escala não
+só não garante diversidade como **atrapalha a auditoria**. É uma festa em que o anfitrião não
+consegue nem contar quem chegou.
+
 ### Tipos de dano, que é o que [F-011] pede para nomear
 
 Falar em "viés" no singular esconde danos de naturezas diferentes:
@@ -70,6 +107,9 @@ Falar em "viés" no singular esconde danos de naturezas diferentes:
 - **Qualidade de serviço** — o sistema simplesmente funciona pior para um grupo (ex.: pior
   desempenho em variedades linguísticas minorizadas).
 
+É por isso que [F-011] insiste em nomear *a quem*: "o modelo tem viés" é diagnóstico do mesmo
+nível de "o paciente não está bem".
+
 ### Pré-treino × pós-treino
 
 Boa parte do esforço de mitigação hoje acontece **depois** do pré-treino (RLHF, *guardrails*,
@@ -77,6 +117,51 @@ filtro de saída). `[hipótese]` Isso trata a manifestação, não a representa�
 modelo continua tendo aprendido as associações de [F-010], apenas fica menos disposto a
 verbalizá-las. Se estiver certo, viés de pré-treino e recusa de saída são camadas
 independentes, e medir só a saída superestima a mitigação. Não confirmei em fonte.
+
+## Exemplos práticos
+
+1. **A limpeza que sujou.** O caso do C4 [F-013] é o exemplo canônico porque o mecanismo é
+   banal: uma lista de termos considerados ofensivos captura também usos reapropriados,
+   variedades linguísticas e discussões *sobre* discriminação. O raciocínio a levar embora:
+   filtro não julga contexto — ele casa string. Toda vez que você troca julgamento por
+   *regex*, alguém sai da amostra, e não é sorteio.
+2. **O contra-caso que impede a solução mágica.** Suponha que você queira "corrigir tudo":
+   igualar taxas de erro entre grupos **e** manter os escores calibrados **e** igualar as
+   taxas de acerto positivo. [F-014] prova que, fora de casos muito restritos, você não pode
+   ter os três. O raciocínio: não é limitação de engenharia, é impossibilidade matemática —
+   nenhum orçamento, nenhum modelo maior e nenhuma GPU nova compram isso. Resta escolher, e
+   escolher publicamente.
+
+## Exercícios
+
+1. **Complete a frase com bom humor:** "Bias é o ______ que mede; fairness é ______ que
+   decide. Confundir os dois é discutir com o termômetro."
+2. **Ache o erro cômico:** "Boa notícia da sprint: reduzimos o viés do modelo em 37%."
+3. **Transforme a frase:** reescreva "vamos tornar o modelo justo" como uma especificação
+   técnica que alguém consiga de fato implementar.
+4. **Verdadeiro ou vergonhoso:** "Como o corpus é gigantesco, ele representa bem a
+   humanidade."
+
+<details>
+<summary>Gabarito comentado</summary>
+
+1. "Bias é o **termômetro** que mede; fairness é **a pessoa** que decide (se veste o casaco)."
+   Descritivo × normativo. Nenhum volume de dados atravessa essa fronteira — e é por isso que
+   "resolver o viés" nunca é só uma tarefa de engenharia.
+2. Faltam as quatro respostas que [F-011] exige: **qual comportamento** é danoso, **de que
+   forma**, **para quem** e **por quê**. Sem isso, "37%" é uma métrica sem referente — e
+   [F-011] revisou 146 artigos justamente para mostrar que essa desconexão entre método e
+   objetivo declarado é a regra, não a exceção. Bônus: 37% medidos em qual instrumento? WEAT
+   [F-010] foi construído para *embeddings* estáticos, não para geração aberta.
+3. Por exemplo: "para a triagem de currículos, queremos **paridade de taxa de falsos negativos
+   entre grupos A e B**, medida em benchmark X, aceitando a perda de calibração que isso
+   implica [F-014], e reavaliada a cada release." O que mudou: apareceram o critério, a métrica,
+   a tarefa e — o item que ninguém gosta de escrever — **o que estamos dispostos a perder**.
+4. **Vergonhoso**, e é o argumento de [F-012]: a web representa quem tem acesso, tempo e poder
+   para publicar. Pior: quanto maior o corpus, mais difícil auditar e documentar o que entrou.
+   Escala compra cobertura de assuntos, não representatividade de pessoas.
+
+</details>
 
 ## Minha análise
 
@@ -101,6 +186,19 @@ formulado para classificação com rótulo e grupo definidos, e geração de tex
 nem "predição positiva" nem grupo explícito. Se for esse o caso, a incompatibilidade é uma
 analogia útil, não um teorema aplicável. Precisa de verificação antes de eu repetir isso como
 fato.
+
+## Resumo cômico
+
+- **Bias mede, fairness decide.** Termômetro não escolhe casaco.
+- O modelo não inventa o viés: ele o herda da distribuição do texto [F-010].
+- "Clean" no nome do corpus não é atestado de limpeza — no C4, o filtro removeu
+  desproporcionalmente texto de e sobre minorias [F-013].
+- Corpus maior ≠ corpus mais representativo, e ainda dificulta a auditoria [F-012].
+- Os três critérios usuais de fairness não coexistem fora de casos muito restritos [F-014]:
+  escolher é obrigatório, o que muda é se você escolhe às claras ou por omissão.
+
+> **Takeaway:** todo *script* de limpeza de dados é um documento de política pública mal
+> disfarçado de código. A diferença entre os dois é só quantas pessoas leram antes do merge.
 
 ## Mapa da ignorância
 

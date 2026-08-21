@@ -2,10 +2,20 @@
 
 Documentação estruturada dos meus estudos sobre Large Language Models (LLMs) — conceitos, técnicas, ferramentas e projetos práticos.
 
+Aviso ao visitante desavisado: aqui ninguém copia abstract. Cada nota é escrita como **aula** —
+com piada, analogia de padaria e exercício com gabarito —, porque o teste de que eu entendi
+alguma coisa é conseguir explicar rindo. O que **não** muda é o rigor: toda afirmação factual
+tem fonte `[F-xx]` ou `[B-xx]`, toda suposição minha vem marcada `[hipótese]`, e analogia que
+começa a mentir leva um aviso dizendo exatamente onde ela trinca. Humor é a embalagem; a fonte
+é o conteúdo.
+
 ## Como usar
 
 - Cada pasta é um tópico. Dentro dela, cada arquivo `.md` é uma nota sobre um assunto específico.
 - Toda nota nova parte do [`_template.md`](_template.md) — copie o arquivo e preencha.
+- Formato da nota (as cinco partes da aula): **chamada** engajadora → **explicação** didática
+  com analogia (e o limite dela) → **exemplos práticos** → **exercícios** com gabarito
+  recolhível → **resumo cômico** com um *takeaway* memorável.
 - Palavras-chave e conceitos, com descrição objetiva (sem aprofundamento), vão no [`PALAVRAS-CHAVE.md`](PALAVRAS-CHAVE.md).
 - Ideias soltas, links para ler depois e coisas para investigar ficam em [`BACKLOG.md`](BACKLOG.md).
 - Perguntas em aberto e lacunas de conhecimento ficam no [`MAPA-DA-IGNORANCIA.md`](MAPA-DA-IGNORANCIA.md).
@@ -28,4 +38,6 @@ Documentação estruturada dos meus estudos sobre Large Language Models (LLMs) �
 
 ## Status
 
-Em construção — atualizado conforme o estudo avança.
+Em construção — atualizado conforme o estudo avança. Como toda boa aula, começa lotado no
+primeiro módulo e vai esvaziando conforme os tópicos ficam difíceis; a diferença é que aqui a
+turma que falta está listada por nome no [`MAPA-DA-IGNORANCIA.md`](MAPA-DA-IGNORANCIA.md).
